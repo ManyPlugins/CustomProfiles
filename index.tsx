@@ -20,14 +20,14 @@ interface SavedPreset {
     savedAt: number;
 }
 
-type BadgeType = "nitro" | "boost" | "standard";
+type BadgeType = "nitro" | "boost" | "standard" | "lastmeadow" | "orbs";
 
 interface PresetBadge {
     name: string;
     description: string;
     image: string;
-    discordBadgeId: string;
-    discordIcon: string;
+    discordBadgeId?: string;
+    discordIcon?: string;
     badgeType: BadgeType;
     link?: string;
 }
@@ -43,6 +43,8 @@ interface BadgeEntry {
     discordIcon?: string;
     badgeType?: BadgeType;
     sinceDate?: number | null;
+    level?: number | null;
+    appName?: string | null;
 }
 
 interface NameplateData {
@@ -57,6 +59,13 @@ interface PrimaryGuildData {
     tag: string;
     badge: string;
     identityEnabled?: boolean;
+}
+
+interface ConnectedAccount {
+    id: string;
+    type: string;
+    name: string;
+    verified: boolean;
 }
 
 interface DisplayNameStyleData {
@@ -94,6 +103,7 @@ interface ProfileData {
     profileEffect: ProfileEffectData | null;
     displayNameStyles: DisplayNameStyleData | null;
     primaryGuild: PrimaryGuildData | null;
+    connectedAccounts: ConnectedAccount[];
 }
 
 const DEFAULT_THEME: [number, number] = [0x5865f2, 0xeb459e];
@@ -117,7 +127,41 @@ const DEFAULT_PROFILE: ProfileData = {
     profileEffect: null,
     displayNameStyles: null,
     primaryGuild: null,
+    connectedAccounts: [],
 };
+
+const GUILD_TAG_BADGES = [
+    { id: "12", name: "Guild Tag 12", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/12.svg" },
+    { id: "13", name: "Guild Tag 13", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/13.svg" },
+    { id: "14", name: "Guild Tag 14", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/14.svg" },
+    { id: "15", name: "Guild Tag 15", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/15.svg" },
+    { id: "16", name: "Guild Tag 16", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/16.svg" },
+    { id: "17", name: "Guild Tag 17", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/17.svg" },
+    { id: "18", name: "Guild Tag 18", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/18.svg" },
+    { id: "19", name: "Guild Tag 19", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/19.svg" },
+    { id: "20", name: "Guild Tag 20", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/20.svg" },
+    { id: "21", name: "Guild Tag 21", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/21.svg" },
+    { id: "22", name: "Guild Tag 22", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/22.svg" },
+    { id: "23", name: "Guild Tag 23", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/23.svg" },
+    { id: "24", name: "Guild Tag 24", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/24.svg" },
+    { id: "25", name: "Guild Tag 25", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/25.svg" },
+    { id: "26", name: "Guild Tag 26", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/26.svg" },
+    { id: "27", name: "Guild Tag 27", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/27.svg" },
+    { id: "28", name: "Guild Tag 28", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/28.svg" },
+    { id: "29", name: "Guild Tag 29", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/29.svg" },
+    { id: "30", name: "Guild Tag 30", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/30.svg" },
+    { id: "31", name: "Guild Tag 31", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/31.svg" },
+    { id: "32", name: "Guild Tag 32", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/32.svg" },
+    { id: "33", name: "Guild Tag 33", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/33.svg" },
+    { id: "34", name: "Guild Tag 34", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/34.svg" },
+    { id: "35", name: "Guild Tag 35", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/35.svg" },
+    { id: "36", name: "Guild Tag 36", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/36.svg" },
+    { id: "37", name: "Guild Tag 37", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/37.svg" },
+    { id: "38", name: "Guild Tag 38", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/38.svg" },
+    { id: "39", name: "Guild Tag 39", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/39.svg" },
+    { id: "40", name: "Guild Tag 40", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/40.svg" },
+    { id: "41", name: "Guild Tag 41", image: "https://cdn.jsdelivr.net/gh/mezotv/discord-badges@main/assets/guilds/41.svg" },
+];
 
 const PRESETS: { category: string; badges: PresetBadge[]; }[] = [
     {
@@ -138,6 +182,8 @@ const PRESETS: { category: string; badges: PresetBadge[]; }[] = [
             { name: "Nitro", description: "Discord Nitro", image: "https://cdn.discordapp.com/badge-icons/2ba85e8026a8614b640c2837bcdfe21b.png", discordBadgeId: "premium", discordIcon: "2ba85e8026a8614b640c2837bcdfe21b", badgeType: "nitro", link: "https://discord.com/settings/premium" },
             { name: "Completed a Quest", description: "Completed a Quest", image: "https://cdn.discordapp.com/badge-icons/7d9ae358c8c5e118768335dbe68b4fb8.png", discordBadgeId: "quest_completed", discordIcon: "7d9ae358c8c5e118768335dbe68b4fb8", badgeType: "standard" },
             { name: "Legacy Username", description: "Originally known as", image: "https://cdn.discordapp.com/badge-icons/6de6d34650760ba5551a79732e98ed60.png", discordBadgeId: "legacy_username", discordIcon: "6de6d34650760ba5551a79732e98ed60", badgeType: "standard" },
+            { name: "Last Meadow Online", description: "Level 1 Reached", image: "https://cdn.discordapp.com/badge-icons/ca105ad9cfc8580c765101d17bbb2323.png", badgeType: "lastmeadow" },
+            { name: "Orbs Apprentice", description: "Apprentice", image: "https://cdn.discordapp.com/badge-icons/83d8a1eb09a8d64e59233eec5d4d5c2d.png", badgeType: "orbs" },
         ]
     },
     {
@@ -291,6 +337,10 @@ function trimOrNull(value: string): string | null {
     return trimmed.length > 0 ? trimmed : null;
 }
 
+function valueOrNull(value: string): string | null {
+    return value.length > 0 ? value : null;
+}
+
 function parseNum(value: string): number | null {
     const n = Number(value);
     return Number.isFinite(n) ? n : null;
@@ -307,6 +357,7 @@ function getEffectiveProfile(userId: string | undefined | null): ProfileData | n
         if (!isEnabled()) return null;
         return cachedProfile;
     }
+    if (settings.store.showOriginalProfiles) return null;
     const remote = remoteProfiles.get(id);
     if (!remote || remote.enabled === false) return null;
     return remote;
@@ -724,7 +775,7 @@ function removeIconUtilsAvatarPatches() {
 type UserClassLike = {
     prototype: {
         getAvatarURL: (...args: unknown[]) => string;
-        getAvatarSource?: (guildId?: string | null) => { uri: string };
+        getAvatarSource?: (guildId?: string | null) => { uri: string; };
         tag?: string;
     };
 };
@@ -939,8 +990,6 @@ function removeDisplayProfileUtilsPatches() {
 function applyUserAvatarMethodPatch() {
 }
 
-
-
 function removeUserAvatarMethodPatch() {
     if (!patchedUserClass) return;
 
@@ -969,25 +1018,49 @@ function isNativeBadge(entry: BadgeEntry): boolean {
     return Boolean(entry.discordBadgeId && entry.discordIcon);
 }
 
-function migrateBadge(entry: BadgeEntry): BadgeEntry {
-    if (entry.discordBadgeId) return entry;
-
+function findPresetForBadge(entry: BadgeEntry): PresetBadge | undefined {
     for (const cat of PRESETS) {
-        const preset = cat.badges.find(p => p.name === entry.name);
-        if (!preset) continue;
+        const byId = entry.discordBadgeId
+            ? cat.badges.find(p => p.discordBadgeId === entry.discordBadgeId)
+            : undefined;
+        if (byId) return byId;
+        const byName = cat.badges.find(p => p.name === entry.name);
+        if (byName) return byName;
+    }
+}
 
+function migrateBadge(entry: BadgeEntry): BadgeEntry {
+    // Force remove discordBadgeId and discordIcon for lastmeadow and orbs badges
+    if ((entry.badgeType as string) === "lastmeadow" || (entry.badgeType as string) === "orbs") {
         return {
             ...entry,
-            discordBadgeId: preset.discordBadgeId,
-            discordIcon: preset.discordIcon,
-            badgeType: preset.badgeType,
-            image: preset.image,
-            link: entry.link || preset.link || "",
-            sinceDate: entry.sinceDate ?? ((preset.badgeType === "nitro" || preset.badgeType === "boost") ? Date.now() : null),
+            discordBadgeId: undefined,
+            discordIcon: undefined,
         };
     }
 
-    return entry;
+    const preset = findPresetForBadge(entry);
+    if (!preset) return entry;
+
+    const migrated: BadgeEntry = {
+        ...entry,
+        discordBadgeId: preset.discordBadgeId,
+        discordIcon: preset.discordIcon,
+        badgeType: preset.badgeType,
+        image: preset.image,
+        link: entry.link || preset.link || "",
+        sinceDate: entry.sinceDate ?? ((preset.badgeType === "nitro" || preset.badgeType === "boost") ? Date.now() : null),
+    };
+
+    if (preset.badgeType === "lastmeadow" && migrated.level == null) {
+        migrated.level = 1;
+    }
+
+    if (preset.badgeType === "orbs" && (!migrated.description || migrated.description === "Orbs Apprentice")) {
+        migrated.description = preset.description;
+    }
+
+    return migrated;
 }
 
 function normalizeProfileData(data: unknown): ProfileData {
@@ -1015,6 +1088,7 @@ function normalizeProfileData(data: unknown): ProfileData {
             profileEffect: profile.profileEffect ?? null,
             displayNameStyles: profile.displayNameStyles ?? null,
             primaryGuild: profile.primaryGuild ?? null,
+            connectedAccounts: profile.connectedAccounts ?? [],
         };
     }
     return { ...DEFAULT_PROFILE };
@@ -1122,7 +1196,9 @@ function pickHighestTier(entries: BadgeEntry[], order: readonly string[]): Badge
 
 function getDisplayNativeBadges(entries: BadgeEntry[]): BadgeEntry[] {
     const nativeEntries = entries.filter(isNativeBadge);
-    const standard = nativeEntries.filter(e => e.badgeType === "standard");
+    const standard = nativeEntries.filter(e =>
+        e.badgeType === "standard"
+    );
     const nitro = pickHighestTier(nativeEntries.filter(e => e.badgeType === "nitro"), NITRO_TIER_ORDER);
     const boost = pickHighestTier(nativeEntries.filter(e => e.badgeType === "boost"), BOOST_TIER_ORDER);
 
@@ -1293,6 +1369,16 @@ function applyProfileOverrides(user: UserProfile, profile: ProfileData): UserPro
         changes.profileEffect = effect;
     }
 
+    if (profile.connectedAccounts.length > 0) {
+        const connectedAccounts = profile.connectedAccounts.map(acc => ({
+            type: acc.type,
+            name: acc.name,
+            verified: acc.verified,
+            id: acc.id,
+        }));
+        changes.connectedAccounts = connectedAccounts as unknown as UserProfile["connectedAccounts"];
+    }
+
     if (Object.keys(changes).length === 0) return user;
     return createOverlay(user, changes as Record<string, unknown>);
 }
@@ -1390,6 +1476,14 @@ function presetToEntry(preset: PresetBadge): BadgeEntry {
         ? Date.now()
         : null;
 
+    // Remove discordBadgeId and discordIcon for lastmeadow and orbs badges
+    const discordBadgeId = (preset.badgeType === "lastmeadow" || preset.badgeType === "orbs")
+        ? undefined
+        : preset.discordBadgeId;
+    const discordIcon = (preset.badgeType === "lastmeadow" || preset.badgeType === "orbs")
+        ? undefined
+        : preset.discordIcon;
+
     return {
         id: Math.random().toString(36).slice(2),
         name: preset.name,
@@ -1397,10 +1491,11 @@ function presetToEntry(preset: PresetBadge): BadgeEntry {
         image: preset.image,
         link: preset.link ?? "",
         position: "END",
-        discordBadgeId: preset.discordBadgeId,
-        discordIcon: preset.discordIcon,
+        discordBadgeId,
+        discordIcon,
         badgeType: preset.badgeType,
         sinceDate,
+        level: preset.badgeType === "lastmeadow" ? 1 : null,
     };
 }
 
@@ -1440,6 +1535,18 @@ function ProfileEditor() {
             badges: profile.badges.map(b => b.id === id ? { ...b, sinceDate: dateInputToTimestamp(value) } : b)
         });
 
+    const updateBadgeLevel = (id: string, value: number) =>
+        save({
+            ...profile,
+            badges: profile.badges.map(b => b.id === id ? { ...b, level: value } : b)
+        });
+
+    const updateBadgeAppName = (id: string, value: string) =>
+        save({
+            ...profile,
+            badges: profile.badges.map(b => b.id === id ? { ...b, appName: trimOrNull(value) } : b)
+        });
+
     const removeBadge = (id: string) =>
         save({ ...profile, badges: profile.badges.filter(b => b.id !== id) });
 
@@ -1454,6 +1561,22 @@ function ProfileEditor() {
             position: "END"
         }]
     });
+
+    const addConnectedAccount = () => save({
+        ...profile,
+        connectedAccounts: [...profile.connectedAccounts, {
+            id: Math.random().toString(36).slice(2),
+            type: "tiktok",
+            name: "",
+            verified: false
+        }]
+    });
+
+    const updateConnectedAccount = (id: string, field: keyof ConnectedAccount, value: string | boolean) =>
+        save({ ...profile, connectedAccounts: profile.connectedAccounts.map(c => c.id === id ? { ...c, [field]: value } : c) });
+
+    const removeConnectedAccount = (id: string) =>
+        save({ ...profile, connectedAccounts: profile.connectedAccounts.filter(c => c.id !== id) });
 
     const addPreset = (preset: PresetBadge) =>
         save({ ...profile, badges: [...profile.badges, presetToEntry(preset)] });
@@ -1496,6 +1619,17 @@ function ProfileEditor() {
         }
     };
 
+    const loadFromStorage = async () => {
+        const currentUser = UserStore.getCurrentUser();
+        if (!currentUser) return;
+        try {
+            const loaded = await loadProfileData(currentUser.id);
+            await save(loaded);
+        } catch (e) {
+            console.error("[CustomProfiles] load from storage failed", e);
+        }
+    };
+
     const realAccountDate = React.useMemo(() => {
         const currentUser = UserStore.getCurrentUser();
         if (!currentUser?.id) return null;
@@ -1504,450 +1638,433 @@ function ProfileEditor() {
 
     return (
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-            <div style={{ background: "var(--background-secondary)", borderRadius: "8px", padding: "12px" }}>
-                <Forms.FormTitle tag="h5" style={{ marginBottom: "8px" }}>Overrides</Forms.FormTitle>
-                <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }}>
-                    <input
-                        type="checkbox"
-                        checked={profile.enabled}
-                        onChange={e => save({ ...profile, enabled: e.target.checked })}
-                    />
-                    <Forms.FormText style={{ margin: 0 }}>Enabled</Forms.FormText>
-                </label>
-            </div>
-
-            <div style={{ background: "var(--background-secondary)", borderRadius: "8px", padding: "12px" }}>
-                <Forms.FormTitle tag="h5" style={{ marginBottom: "8px" }}>Names</Forms.FormTitle>
-
-                <Forms.FormText>Display Name</Forms.FormText>
-                <input
-                    style={inputStyle}
-                    value={profile.globalName ?? ""}
-                    placeholder="global name"
-                    onChange={e => save({ ...profile, globalName: trimOrNull(e.target.value) })}
-                />
-
-                <Forms.FormText>Username</Forms.FormText>
-                <input
-                    style={inputStyle}
-                    value={profile.username ?? ""}
-                    placeholder="iyz"
-                    onChange={e => save({ ...profile, username: trimOrNull(e.target.value)?.replace(/^@/, "") ?? null })}
-                />
-
-                <Forms.FormText>Server Nickname</Forms.FormText>
-                <input
-                    style={inputStyle}
-                    value={profile.nick ?? ""}
-                    placeholder="guild nick"
-                    onChange={e => save({ ...profile, nick: trimOrNull(e.target.value) })}
-                />
-            </div>
-
-            <div style={{ background: "var(--background-secondary)", borderRadius: "8px", padding: "12px" }}>
-                <Forms.FormTitle tag="h5" style={{ marginBottom: "8px" }}>Profile Info</Forms.FormTitle>
-
-                <Forms.FormText>Bio</Forms.FormText>
-                <textarea
-                    style={textareaStyle}
-                    value={profile.bio ?? ""}
-                    placeholder="bio"
-                    onChange={e => save({ ...profile, bio: trimOrNull(e.target.value) })}
-                />
-
-                <Forms.FormText>Pronouns</Forms.FormText>
-                <input
-                    style={inputStyle}
-                    value={profile.pronouns ?? ""}
-                    placeholder="they/them"
-                    onChange={e => save({ ...profile, pronouns: trimOrNull(e.target.value) })}
-                />
-
-                <Forms.FormText>Legacy Username</Forms.FormText>
-                <input
-                    style={inputStyle}
-                    value={profile.legacyUsername ?? ""}
-                    placeholder="oldname"
-                    onChange={e => save({ ...profile, legacyUsername: trimOrNull(e.target.value) })}
-                />
-            </div>
-
-            <div style={{ background: "var(--background-secondary)", borderRadius: "8px", padding: "12px" }}>
-                <Forms.FormTitle tag="h5" style={{ marginBottom: "8px" }}>Banner & Avatar</Forms.FormTitle>
-
-                <Forms.FormText>Banner URL</Forms.FormText>
-                <input
-                    style={inputStyle}
-                    value={profile.bannerUrl ?? ""}
-                    placeholder="https://..."
-                    onChange={e => save({ ...profile, bannerUrl: trimOrNull(e.target.value) })}
-                />
-
-                <Forms.FormText>Avatar URL</Forms.FormText>
-                <input
-                    style={inputStyle}
-                    value={profile.avatarUrl ?? ""}
-                    placeholder="https://..."
-                    onChange={e => save({ ...profile, avatarUrl: trimOrNull(e.target.value) })}
-                />
-            </div>
-
-            <div style={{ background: "var(--background-secondary)", borderRadius: "8px", padding: "12px" }}>
-                <Forms.FormTitle tag="h5" style={{ marginBottom: "8px" }}>Avatar Decoration</Forms.FormTitle>
-                <Forms.FormText>Asset</Forms.FormText>
-                <input
-                    style={inputStyle}
-                    value={profile.avatarDecoration?.asset ?? ""}
-                    placeholder="hash"
-                    onChange={e => save({
-                        ...profile,
-                        avatarDecoration: {
-                            asset: e.target.value,
-                            skuId: profile.avatarDecoration?.skuId ?? "",
-                        },
-                    })}
-                />
-                <Forms.FormText>Sku ID</Forms.FormText>
-                <input
-                    style={inputStyle}
-                    value={profile.avatarDecoration?.skuId ?? ""}
-                    placeholder="sku id"
-                    onChange={e => {
-                        const asset = profile.avatarDecoration?.asset ?? "";
-                        const skuId = trimOrNull(e.target.value);
-                        save({
-                            ...profile,
-                            avatarDecoration: trimOrNull(asset) && skuId ? { asset: asset.trim(), skuId } : null,
-                        });
-                    }}
-                />
-                <Button
-                    size={Button.Sizes.SMALL}
-                    color={Button.Colors.RED}
-                    disabled={!profile.avatarDecoration}
-                    onClick={() => save({ ...profile, avatarDecoration: null })}
-                >
-                    Clear
-                </Button>
-            </div>
-
-            <div style={{ background: "var(--background-secondary)", borderRadius: "8px", padding: "12px" }}>
-                <Forms.FormTitle tag="h5" style={{ marginBottom: "8px" }}>Nameplate</Forms.FormTitle>
-                <Forms.FormText>Asset</Forms.FormText>
-                <input
-                    style={inputStyle}
-                    value={profile.nameplate?.asset ?? ""}
-                    onChange={e => save({
-                        ...profile,
-                        nameplate: {
-                            asset: e.target.value,
-                            skuId: profile.nameplate?.skuId ?? "",
-                            label: profile.nameplate?.label,
-                            palette: profile.nameplate?.palette,
-                        },
-                    })}
-                />
-                <Forms.FormText>Sku ID</Forms.FormText>
-                <input
-                    style={inputStyle}
-                    value={profile.nameplate?.skuId ?? ""}
-                    onChange={e => save({
-                        ...profile,
-                        nameplate: profile.nameplate?.asset && trimOrNull(e.target.value)
-                            ? { ...profile.nameplate, asset: profile.nameplate.asset, skuId: e.target.value.trim() }
-                            : null,
-                    })}
-                />
-                <Forms.FormText>Label</Forms.FormText>
-                <input
-                    style={inputStyle}
-                    value={profile.nameplate?.label ?? ""}
-                    onChange={e => profile.nameplate && save({
-                        ...profile,
-                        nameplate: { ...profile.nameplate, label: trimOrNull(e.target.value) ?? "" },
-                    })}
-                />
-                <Forms.FormText>Palette</Forms.FormText>
-                <input
-                    style={inputStyle}
-                    value={profile.nameplate?.palette ?? ""}
-                    onChange={e => profile.nameplate && save({
-                        ...profile,
-                        nameplate: { ...profile.nameplate, palette: trimOrNull(e.target.value) ?? "" },
-                    })}
-                />
-                <Button
-                    size={Button.Sizes.SMALL}
-                    color={Button.Colors.RED}
-                    disabled={!profile.nameplate}
-                    onClick={() => save({ ...profile, nameplate: null })}
-                >
-                    Clear
-                </Button>
-            </div>
-
-            <div style={{ background: "var(--background-secondary)", borderRadius: "8px", padding: "12px" }}>
-                <Forms.FormTitle tag="h5" style={{ marginBottom: "8px" }}>Profile Effect</Forms.FormTitle>
-                <Forms.FormText>Sku ID</Forms.FormText>
-                <input
-                    style={inputStyle}
-                    value={profile.profileEffect?.skuId ?? ""}
-                    onChange={e => save({
-                        ...profile,
-                        profileEffect: trimOrNull(e.target.value)
-                            ? { ...(profile.profileEffect ?? {}), skuId: e.target.value.trim() }
-                            : null,
-                    })}
-                />
-                <Forms.FormText>Static Frame URL</Forms.FormText>
-                <input
-                    style={inputStyle}
-                    value={profile.profileEffect?.staticFrameSrc ?? ""}
-                    onChange={e => profile.profileEffect && save({
-                        ...profile,
-                        profileEffect: { ...profile.profileEffect, staticFrameSrc: trimOrNull(e.target.value) ?? undefined },
-                    })}
-                />
-                <Forms.FormText>Reduced Motion URL</Forms.FormText>
-                <input
-                    style={inputStyle}
-                    value={profile.profileEffect?.reducedMotionSrc ?? ""}
-                    onChange={e => profile.profileEffect && save({
-                        ...profile,
-                        profileEffect: { ...profile.profileEffect, reducedMotionSrc: trimOrNull(e.target.value) ?? undefined },
-                    })}
-                />
-                <Forms.FormText>Effects JSON</Forms.FormText>
-                <textarea
-                    style={textareaStyle}
-                    value={profile.profileEffect?.effectsJson ?? ""}
-                    placeholder='[{"src":"..."}]'
-                    onChange={e => profile.profileEffect && save({
-                        ...profile,
-                        profileEffect: { ...profile.profileEffect, effectsJson: trimOrNull(e.target.value) ?? undefined },
-                    })}
-                />
-                <Button
-                    size={Button.Sizes.SMALL}
-                    color={Button.Colors.RED}
-                    disabled={!profile.profileEffect}
-                    onClick={() => save({ ...profile, profileEffect: null })}
-                >
-                    Clear
-                </Button>
-            </div>
-
-            <div style={{ background: "var(--background-secondary)", borderRadius: "8px", padding: "12px" }}>
-                <Forms.FormTitle tag="h5" style={{ marginBottom: "8px" }}>Display Name Styles</Forms.FormTitle>
-                <Forms.FormText>Font ID</Forms.FormText>
-                <input
-                    style={inputStyle}
-                    value={profile.displayNameStyles?.font_id ?? ""}
-                    onChange={e => {
-                        const font_id = parseNum(e.target.value);
-                        const effect_id = profile.displayNameStyles?.effect_id;
-                        save({
-                            ...profile,
-                            displayNameStyles: font_id != null && effect_id != null
-                                ? { font_id, effect_id, colors: profile.displayNameStyles?.colors ?? [] }
-                                : null,
-                        });
-                    }}
-                />
-                <Forms.FormText>Effect ID</Forms.FormText>
-                <input
-                    style={inputStyle}
-                    value={profile.displayNameStyles?.effect_id ?? ""}
-                    onChange={e => {
-                        const effect_id = parseNum(e.target.value);
-                        const font_id = profile.displayNameStyles?.font_id;
-                        save({
-                            ...profile,
-                            displayNameStyles: font_id != null && effect_id != null
-                                ? { font_id, effect_id, colors: profile.displayNameStyles?.colors ?? [] }
-                                : null,
-                        });
-                    }}
-                />
-                <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", alignItems: "flex-end" }}>
-                    {[0, 1, 2].map(i => (
-                        <ColorPicker
-                            key={i}
-                            color={profile.displayNameStyles?.colors?.[i] ?? 0xffffff}
-                            label={<BaseText size="xs" style={{ marginTop: "4px" }}>Color {i + 1}</BaseText>}
-                            onChange={(color: number) => {
-                                const base = profile.displayNameStyles ?? { font_id: 0, effect_id: 0, colors: [] };
-                                const colors = [...base.colors];
-                                colors[i] = color;
-                                save({ ...profile, displayNameStyles: { ...base, colors } });
-                            }}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "16px" }}>
+                <div style={{ background: "var(--background-secondary)", borderRadius: "8px", padding: "12px" }}>
+                    <Forms.FormTitle tag="h5" style={{ marginBottom: "8px" }}>Basic Info</Forms.FormTitle>
+                    <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", marginBottom: "12px" }}>
+                        <input
+                            type="checkbox"
+                            checked={profile.enabled}
+                            onChange={e => save({ ...profile, enabled: e.target.checked })}
                         />
-                    ))}
+                        <Forms.FormText style={{ margin: 0 }}>Enabled</Forms.FormText>
+                    </label>
+
+                    <Forms.FormText>Display Name</Forms.FormText>
+                    <input
+                        style={inputStyle}
+                        value={profile.globalName ?? ""}
+                        placeholder="global name"
+                        onChange={e => save({ ...profile, globalName: valueOrNull(e.target.value) })}
+                    />
+
+                    <Forms.FormText>Username</Forms.FormText>
+                    <input
+                        style={inputStyle}
+                        value={profile.username ?? ""}
+                        placeholder="iyz"
+                        onChange={e => save({ ...profile, username: valueOrNull(e.target.value)?.replace(/^@/, "") ?? null })}
+                    />
+
+                    <Forms.FormText>Server Nickname</Forms.FormText>
+                    <input
+                        style={inputStyle}
+                        value={profile.nick ?? ""}
+                        placeholder="guild nick"
+                        onChange={e => save({ ...profile, nick: valueOrNull(e.target.value) })}
+                    />
+
+                    <Forms.FormText>Bio</Forms.FormText>
+                    <textarea
+                        style={textareaStyle}
+                        value={profile.bio ?? ""}
+                        placeholder="bio"
+                        onChange={e => save({ ...profile, bio: valueOrNull(e.target.value) })}
+                    />
+
+                    <Forms.FormText>Pronouns</Forms.FormText>
+                    <input
+                        style={inputStyle}
+                        value={profile.pronouns ?? ""}
+                        placeholder="they/them"
+                        onChange={e => save({ ...profile, pronouns: trimOrNull(e.target.value) })}
+                    />
                 </div>
-                <Button
-                    size={Button.Sizes.SMALL}
-                    color={Button.Colors.RED}
-                    disabled={!profile.displayNameStyles}
-                    onClick={() => save({ ...profile, displayNameStyles: null })}
-                >
-                    Clear
-                </Button>
-            </div>
 
-            <div style={{ background: "var(--background-secondary)", borderRadius: "8px", padding: "12px" }}>
-                <Forms.FormTitle tag="h5" style={{ marginBottom: "8px" }}>Clan Tag</Forms.FormTitle>
-                <Forms.FormText>Guild ID</Forms.FormText>
-                <input
-                    style={inputStyle}
-                    value={profile.primaryGuild?.identityGuildId ?? ""}
-                    onChange={e => save({
-                        ...profile,
-                        primaryGuild: {
-                            identityGuildId: e.target.value,
-                            tag: profile.primaryGuild?.tag ?? "",
-                            badge: profile.primaryGuild?.badge ?? "",
-                            identityEnabled: profile.primaryGuild?.identityEnabled,
-                        },
-                    })}
-                />
-                <Forms.FormText>Tag</Forms.FormText>
-                <input
-                    style={inputStyle}
-                    value={profile.primaryGuild?.tag ?? ""}
-                    onChange={e => profile.primaryGuild && save({
-                        ...profile,
-                        primaryGuild: { ...profile.primaryGuild, tag: e.target.value },
-                    })}
-                />
-                <Forms.FormText>Badge Hash</Forms.FormText>
-                <input
-                    style={inputStyle}
-                    value={profile.primaryGuild?.badge ?? ""}
-                    onChange={e => profile.primaryGuild && save({
-                        ...profile,
-                        primaryGuild: { ...profile.primaryGuild, badge: e.target.value },
-                    })}
-                />
-                <Button
-                    size={Button.Sizes.SMALL}
-                    color={Button.Colors.RED}
-                    disabled={!profile.primaryGuild}
-                    onClick={() => save({ ...profile, primaryGuild: null })}
-                >
-                    Clear
-                </Button>
-            </div>
+                <div style={{ background: "var(--background-secondary)", borderRadius: "8px", padding: "12px" }}>
+                    <Forms.FormTitle tag="h5" style={{ marginBottom: "8px" }}>Banner & Avatar</Forms.FormTitle>
 
-            <div style={{ background: "var(--background-secondary)", borderRadius: "8px", padding: "12px" }}>
-                <Forms.FormTitle tag="h5" style={{ marginBottom: "8px" }}>Profile Gradient</Forms.FormTitle>
+                    <Forms.FormText>Banner URL</Forms.FormText>
+                    <input
+                        style={inputStyle}
+                        value={profile.bannerUrl ?? ""}
+                        placeholder="https://..."
+                        onChange={e => save({ ...profile, bannerUrl: trimOrNull(e.target.value) })}
+                    />
 
-                {profile.themeColors && (
-                    <div
-                        style={{
-                            height: "48px",
-                            borderRadius: "8px",
-                            marginBottom: "12px",
-                            background: `linear-gradient(90deg, ${colorToHex(profile.themeColors[0])}, ${colorToHex(profile.themeColors[1])})`,
+                    <Forms.FormText>Avatar URL</Forms.FormText>
+                    <input
+                        style={inputStyle}
+                        value={profile.avatarUrl ?? ""}
+                        placeholder="https://..."
+                        onChange={e => save({ ...profile, avatarUrl: trimOrNull(e.target.value) })}
+                    />
+
+                    <Forms.FormTitle tag="h5" style={{ marginBottom: "8px", marginTop: "16px" }}>Avatar Decoration</Forms.FormTitle>
+                    <Forms.FormText>Asset</Forms.FormText>
+                    <input
+                        style={inputStyle}
+                        value={profile.avatarDecoration?.asset ?? ""}
+                        placeholder="hash"
+                        onChange={e => save({
+                            ...profile,
+                            avatarDecoration: {
+                                asset: e.target.value,
+                                skuId: profile.avatarDecoration?.skuId ?? "",
+                            },
+                        })}
+                    />
+                    <Forms.FormText>Sku ID</Forms.FormText>
+                    <input
+                        style={inputStyle}
+                        value={profile.avatarDecoration?.skuId ?? ""}
+                        placeholder="sku id"
+                        onChange={e => {
+                            const asset = profile.avatarDecoration?.asset ?? "";
+                            const skuId = trimOrNull(e.target.value);
+                            save({
+                                ...profile,
+                                avatarDecoration: trimOrNull(asset) && skuId ? { asset: asset.trim(), skuId } : null,
+                            });
                         }}
                     />
-                )}
-
-                <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", alignItems: "flex-end" }}>
-                    <ColorPicker
-                        color={profile.themeColors?.[0] ?? DEFAULT_THEME[0]}
-                        label={<BaseText size="xs" style={{ marginTop: "4px" }}>Primary</BaseText>}
-                        onChange={(color: number) => save({
-                            ...profile,
-                            themeColors: [
-                                color,
-                                profile.themeColors?.[1] ?? DEFAULT_THEME[1],
-                            ],
-                        })}
-                    />
-                    <ColorPicker
-                        color={profile.themeColors?.[1] ?? DEFAULT_THEME[1]}
-                        label={<BaseText size="xs" style={{ marginTop: "4px" }}>Accent</BaseText>}
-                        onChange={(color: number) => save({
-                            ...profile,
-                            themeColors: [
-                                profile.themeColors?.[0] ?? DEFAULT_THEME[0],
-                                color,
-                            ],
-                        })}
-                    />
+                    <Button
+                        size={Button.Sizes.SMALL}
+                        color={Button.Colors.RED}
+                        disabled={!profile.avatarDecoration}
+                        onClick={() => save({ ...profile, avatarDecoration: null })}
+                    >
+                        Clear
+                    </Button>
                 </div>
 
-                <Button
-                    size={Button.Sizes.SMALL}
-                    color={Button.Colors.RED}
-                    style={{ marginTop: "12px" }}
-                    disabled={profile.themeColors == null}
-                    onClick={() => save({ ...profile, themeColors: null })}
-                >
-                    Clear
-                </Button>
-            </div>
+                <div style={{ background: "var(--background-secondary)", borderRadius: "8px", padding: "12px" }}>
+                    <Forms.FormTitle tag="h5" style={{ marginBottom: "8px" }}>Profile Effects</Forms.FormTitle>
 
-            <div style={{ background: "var(--background-secondary)", borderRadius: "8px", padding: "12px" }}>
-                <Forms.FormTitle tag="h5" style={{ marginBottom: "8px" }}>Accent Color</Forms.FormTitle>
+                    <Forms.FormTitle tag="h6" style={{ marginBottom: "8px" }}>Nameplate</Forms.FormTitle>
+                    <Forms.FormText>Asset</Forms.FormText>
+                    <input
+                        style={inputStyle}
+                        value={profile.nameplate?.asset ?? ""}
+                        onChange={e => save({
+                            ...profile,
+                            nameplate: {
+                                asset: e.target.value,
+                                skuId: profile.nameplate?.skuId ?? "",
+                                label: profile.nameplate?.label,
+                                palette: profile.nameplate?.palette,
+                            },
+                        })}
+                    />
+                    <Forms.FormText>Sku ID</Forms.FormText>
+                    <input
+                        style={inputStyle}
+                        value={profile.nameplate?.skuId ?? ""}
+                        onChange={e => save({
+                            ...profile,
+                            nameplate: profile.nameplate?.asset && trimOrNull(e.target.value)
+                                ? { ...profile.nameplate, asset: profile.nameplate.asset, skuId: e.target.value.trim() }
+                                : null,
+                        })}
+                    />
+                    <Forms.FormText>Label</Forms.FormText>
+                    <input
+                        style={inputStyle}
+                        value={profile.nameplate?.label ?? ""}
+                        onChange={e => profile.nameplate && save({
+                            ...profile,
+                            nameplate: { ...profile.nameplate, label: trimOrNull(e.target.value) ?? "" },
+                        })}
+                    />
+                    <Forms.FormText>Palette</Forms.FormText>
+                    <input
+                        style={inputStyle}
+                        value={profile.nameplate?.palette ?? ""}
+                        onChange={e => profile.nameplate && save({
+                            ...profile,
+                            nameplate: { ...profile.nameplate, palette: trimOrNull(e.target.value) ?? "" },
+                        })}
+                    />
+                    <Button
+                        size={Button.Sizes.SMALL}
+                        color={Button.Colors.RED}
+                        disabled={!profile.nameplate}
+                        onClick={() => save({ ...profile, nameplate: null })}
+                    >
+                        Clear Nameplate
+                    </Button>
 
-                <ColorPicker
-                    color={profile.accentColor ?? 0x5865f2}
-                    label={<BaseText size="xs" style={{ marginTop: "4px" }}>Accent</BaseText>}
-                    onChange={(color: number) => save({ ...profile, accentColor: color })}
-                />
+                    <Forms.FormTitle tag="h6" style={{ marginBottom: "8px", marginTop: "16px" }}>Profile Effect</Forms.FormTitle>
+                    <Forms.FormText>Sku ID</Forms.FormText>
+                    <input
+                        style={inputStyle}
+                        value={profile.profileEffect?.skuId ?? ""}
+                        onChange={e => save({
+                            ...profile,
+                            profileEffect: trimOrNull(e.target.value)
+                                ? { ...(profile.profileEffect ?? {}), skuId: e.target.value.trim() }
+                                : null,
+                        })}
+                    />
+                    <Forms.FormText>Static Frame URL</Forms.FormText>
+                    <input
+                        style={inputStyle}
+                        value={profile.profileEffect?.staticFrameSrc ?? ""}
+                        onChange={e => profile.profileEffect && save({
+                            ...profile,
+                            profileEffect: { ...profile.profileEffect, staticFrameSrc: trimOrNull(e.target.value) ?? undefined },
+                        })}
+                    />
+                    <Forms.FormText>Reduced Motion URL</Forms.FormText>
+                    <input
+                        style={inputStyle}
+                        value={profile.profileEffect?.reducedMotionSrc ?? ""}
+                        onChange={e => profile.profileEffect && save({
+                            ...profile,
+                            profileEffect: { ...profile.profileEffect, reducedMotionSrc: trimOrNull(e.target.value) ?? undefined },
+                        })}
+                    />
+                    <Button
+                        size={Button.Sizes.SMALL}
+                        color={Button.Colors.RED}
+                        disabled={!profile.profileEffect}
+                        onClick={() => save({ ...profile, profileEffect: null })}
+                    >
+                        Clear Effect
+                    </Button>
+                </div>
 
-                <Button
-                    size={Button.Sizes.SMALL}
-                    color={Button.Colors.RED}
-                    style={{ marginTop: "12px" }}
-                    disabled={profile.accentColor == null}
-                    onClick={() => save({ ...profile, accentColor: null })}
-                >
-                    Clear
-                </Button>
-            </div>
+                <div style={{ background: "var(--background-secondary)", borderRadius: "8px", padding: "12px" }}>
+                    <Forms.FormTitle tag="h5" style={{ marginBottom: "8px" }}>Colors & Styles</Forms.FormTitle>
 
-            <div style={{ background: "var(--background-secondary)", borderRadius: "8px", padding: "12px" }}>
-                <Forms.FormTitle tag="h5" style={{ marginBottom: "8px" }}>Saved Presets</Forms.FormTitle>
+                    <Forms.FormTitle tag="h6" style={{ marginBottom: "8px" }}>Profile Gradient</Forms.FormTitle>
+                    {profile.themeColors && (
+                        <div
+                            style={{
+                                height: "48px",
+                                borderRadius: "8px",
+                                marginBottom: "12px",
+                                background: `linear-gradient(90deg, ${colorToHex(profile.themeColors[0])}, ${colorToHex(profile.themeColors[1])})`,
+                            }}
+                        />
+                    )}
+                    <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", alignItems: "flex-end" }}>
+                        <ColorPicker
+                            color={profile.themeColors?.[0] ?? DEFAULT_THEME[0]}
+                            label={<BaseText size="xs" style={{ marginTop: "4px" }}>Primary</BaseText>}
+                            onChange={(color: number) => save({
+                                ...profile,
+                                themeColors: [
+                                    color,
+                                    profile.themeColors?.[1] ?? DEFAULT_THEME[1],
+                                ],
+                            })}
+                        />
+                        <ColorPicker
+                            color={profile.themeColors?.[1] ?? DEFAULT_THEME[1]}
+                            label={<BaseText size="xs" style={{ marginTop: "4px" }}>Accent</BaseText>}
+                            onChange={(color: number) => save({
+                                ...profile,
+                                themeColors: [
+                                    profile.themeColors?.[0] ?? DEFAULT_THEME[0],
+                                    color,
+                                ],
+                            })}
+                        />
+                    </div>
+                    <Button
+                        size={Button.Sizes.SMALL}
+                        color={Button.Colors.RED}
+                        style={{ marginTop: "8px" }}
+                        disabled={profile.themeColors == null}
+                        onClick={() => save({ ...profile, themeColors: null })}
+                    >
+                        Clear Gradient
+                    </Button>
 
-                <Forms.FormText>Preset Name</Forms.FormText>
-                <input
-                    style={inputStyle}
-                    value={presetName}
-                    placeholder="preset name"
-                    onChange={e => setPresetName(e.target.value)}
-                />
-                <Button size={Button.Sizes.SMALL} disabled={!trimOrNull(presetName)} onClick={saveNamedPreset}>
-                    Save Preset
-                </Button>
+                    <Forms.FormTitle tag="h6" style={{ marginBottom: "8px", marginTop: "16px" }}>Accent Color</Forms.FormTitle>
+                    <ColorPicker
+                        color={profile.accentColor ?? 0x5865f2}
+                        label={<BaseText size="xs" style={{ marginTop: "4px" }}>Accent</BaseText>}
+                        onChange={(color: number) => save({ ...profile, accentColor: color })}
+                    />
+                    <Button
+                        size={Button.Sizes.SMALL}
+                        color={Button.Colors.RED}
+                        style={{ marginTop: "8px" }}
+                        disabled={profile.accentColor == null}
+                        onClick={() => save({ ...profile, accentColor: null })}
+                    >
+                        Clear Accent
+                    </Button>
 
-                {presets.length > 0 && (
-                    <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginTop: "12px" }}>
-                        {presets.map(preset => (
-                            <div key={preset.name} style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-                                <Forms.FormText style={{ flex: 1 }}>{preset.name}</Forms.FormText>
-                                <Button size={Button.Sizes.SMALL} onClick={() => loadNamedPreset(preset)}>Load</Button>
-                                <Button size={Button.Sizes.SMALL} color={Button.Colors.RED} onClick={() => deleteNamedPreset(preset.name)}>Delete</Button>
-                            </div>
+                    <Forms.FormTitle tag="h6" style={{ marginBottom: "8px", marginTop: "16px" }}>Display Name Styles</Forms.FormTitle>
+                    <Forms.FormText>Font ID</Forms.FormText>
+                    <input
+                        style={inputStyle}
+                        value={profile.displayNameStyles?.font_id ?? ""}
+                        onChange={e => {
+                            const font_id = parseNum(e.target.value);
+                            const effect_id = profile.displayNameStyles?.effect_id;
+                            save({
+                                ...profile,
+                                displayNameStyles: font_id != null && effect_id != null
+                                    ? { font_id, effect_id, colors: profile.displayNameStyles?.colors ?? [] }
+                                    : null,
+                            });
+                        }}
+                    />
+                    <Forms.FormText>Effect ID</Forms.FormText>
+                    <input
+                        style={inputStyle}
+                        value={profile.displayNameStyles?.effect_id ?? ""}
+                        onChange={e => {
+                            const effect_id = parseNum(e.target.value);
+                            const font_id = profile.displayNameStyles?.font_id;
+                            save({
+                                ...profile,
+                                displayNameStyles: font_id != null && effect_id != null
+                                    ? { font_id, effect_id, colors: profile.displayNameStyles?.colors ?? [] }
+                                    : null,
+                            });
+                        }}
+                    />
+                    <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", alignItems: "flex-end" }}>
+                        {[0, 1, 2].map(i => (
+                            <ColorPicker
+                                key={i}
+                                color={profile.displayNameStyles?.colors?.[i] ?? 0xffffff}
+                                label={<BaseText size="xs" style={{ marginTop: "4px" }}>Color {i + 1}</BaseText>}
+                                onChange={(color: number) => {
+                                    const base = profile.displayNameStyles ?? { font_id: 0, effect_id: 0, colors: [] };
+                                    const colors = [...base.colors];
+                                    colors[i] = color;
+                                    save({ ...profile, displayNameStyles: { ...base, colors } });
+                                }}
+                            />
                         ))}
                     </div>
-                )}
-
-                <div style={{ display: "flex", gap: "8px", marginTop: "12px", flexWrap: "wrap" }}>
-                    <Button size={Button.Sizes.SMALL} onClick={exportProfile}>Export JSON</Button>
+                    <Button
+                        size={Button.Sizes.SMALL}
+                        color={Button.Colors.RED}
+                        style={{ marginTop: "8px" }}
+                        disabled={!profile.displayNameStyles}
+                        onClick={() => save({ ...profile, displayNameStyles: null })}
+                    >
+                        Clear Styles
+                    </Button>
                 </div>
 
-                <Forms.FormText style={{ marginTop: "12px" }}>Import JSON</Forms.FormText>
-                <textarea
-                    style={textareaStyle}
-                    value={importJson}
-                    placeholder="{}"
-                    onChange={e => setImportJson(e.target.value)}
-                />
-                <Button size={Button.Sizes.SMALL} disabled={!importJson.trim()} onClick={importProfile}>
-                    Import
-                </Button>
+                <div style={{ background: "var(--background-secondary)", borderRadius: "8px", padding: "12px" }}>
+                    <Forms.FormTitle tag="h5" style={{ marginBottom: "8px" }}>Clan Tag</Forms.FormTitle>
+                    <Forms.FormText>Guild ID</Forms.FormText>
+                    <input
+                        style={inputStyle}
+                        value={profile.primaryGuild?.identityGuildId ?? ""}
+                        onChange={e => save({
+                            ...profile,
+                            primaryGuild: {
+                                identityGuildId: e.target.value,
+                                tag: profile.primaryGuild?.tag ?? "",
+                                badge: profile.primaryGuild?.badge ?? "",
+                                identityEnabled: profile.primaryGuild?.identityEnabled,
+                            },
+                        })}
+                    />
+                    <Forms.FormText>Tag</Forms.FormText>
+                    <input
+                        style={inputStyle}
+                        value={profile.primaryGuild?.tag ?? ""}
+                        onChange={e => profile.primaryGuild && save({
+                            ...profile,
+                            primaryGuild: { ...profile.primaryGuild, tag: e.target.value },
+                        })}
+                    />
+                    <Forms.FormText>Badge Hash</Forms.FormText>
+                    <select
+                        style={inputStyle}
+                        value={profile.primaryGuild?.badge ?? ""}
+                        onChange={e => profile.primaryGuild && save({
+                            ...profile,
+                            primaryGuild: { ...profile.primaryGuild, badge: e.target.value },
+                        })}
+                    >
+                        <option value="">Select a badge...</option>
+                        {GUILD_TAG_BADGES.map(badge => (
+                            <option key={badge.id} value={badge.id}>{badge.name}</option>
+                        ))}
+                    </select>
+                    {profile.primaryGuild?.badge && (
+                        <div style={{ marginTop: "8px" }}>
+                            <img
+                                src={GUILD_TAG_BADGES.find(b => b.id === profile.primaryGuild?.badge)?.image}
+                                alt="Selected badge"
+                                style={{ width: "32px", height: "32px" }}
+                            />
+                        </div>
+                    )}
+                    <Button
+                        size={Button.Sizes.SMALL}
+                        color={Button.Colors.RED}
+                        disabled={!profile.primaryGuild}
+                        onClick={() => save({ ...profile, primaryGuild: null })}
+                    >
+                        Clear
+                    </Button>
+                </div>
+
+                <div style={{ background: "var(--background-secondary)", borderRadius: "8px", padding: "12px" }}>
+                    <Forms.FormTitle tag="h5" style={{ marginBottom: "8px" }}>Data Management</Forms.FormTitle>
+
+                    <Forms.FormText>Preset Name</Forms.FormText>
+                    <input
+                        style={inputStyle}
+                        value={presetName}
+                        placeholder="preset name"
+                        onChange={e => setPresetName(e.target.value)}
+                    />
+                    <Button size={Button.Sizes.SMALL} disabled={!trimOrNull(presetName)} onClick={saveNamedPreset}>
+                        Save Preset
+                    </Button>
+
+                    {presets.length > 0 && (
+                        <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginTop: "12px" }}>
+                            {presets.map(preset => (
+                                <div key={preset.name} style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+                                    <Forms.FormText style={{ flex: 1 }}>{preset.name}</Forms.FormText>
+                                    <Button size={Button.Sizes.SMALL} onClick={() => loadNamedPreset(preset)}>Load</Button>
+                                    <Button size={Button.Sizes.SMALL} color={Button.Colors.RED} onClick={() => deleteNamedPreset(preset.name)}>Delete</Button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    <div style={{ display: "flex", gap: "8px", marginTop: "12px", flexWrap: "wrap" }}>
+                        <Button size={Button.Sizes.SMALL} onClick={exportProfile}>Export JSON</Button>
+                        <Button size={Button.Sizes.SMALL} onClick={loadFromStorage}>Load from Storage</Button>
+                    </div>
+
+                    <Forms.FormText style={{ marginTop: "12px" }}>Import JSON</Forms.FormText>
+                    <textarea
+                        style={textareaStyle}
+                        value={importJson}
+                        placeholder="{}"
+                        onChange={e => setImportJson(e.target.value)}
+                    />
+                    <Button size={Button.Sizes.SMALL} disabled={!importJson.trim()} onClick={importProfile}>
+                        Import
+                    </Button>
+                </div>
             </div>
 
             <div style={{ background: "var(--background-secondary)", borderRadius: "8px", padding: "12px" }}>
@@ -2018,8 +2135,12 @@ function ProfileEditor() {
                     <Forms.FormText>Name</Forms.FormText>
                     <input style={inputStyle} value={badge.name} onChange={e => updateBadge(badge.id, "name", e.target.value)} />
 
-                    <Forms.FormText>Description</Forms.FormText>
-                    <input style={inputStyle} value={badge.description} onChange={e => updateBadge(badge.id, "description", e.target.value)} />
+                    {badge.badgeType !== "lastmeadow" && badge.badgeType !== "orbs" && (
+                        <>
+                            <Forms.FormText>Description</Forms.FormText>
+                            <input style={inputStyle} value={badge.description} onChange={e => updateBadge(badge.id, "description", e.target.value)} />
+                        </>
+                    )}
 
                     {!isNativeBadge(badge) && (
                         <>
@@ -2040,7 +2161,32 @@ function ProfileEditor() {
                         </>
                     )}
 
-                    {badge.badgeType !== "nitro" && badge.badgeType !== "boost" && (
+                    {badge.badgeType === "lastmeadow" && (
+                        <>
+                            <Forms.FormText>Level</Forms.FormText>
+                            <input
+                                type="number"
+                                min={1}
+                                style={inputStyle}
+                                value={badge.level ?? 1}
+                                onChange={e => updateBadgeLevel(badge.id, Math.max(1, parseInt(e.target.value) || 1))}
+                            />
+                        </>
+                    )}
+
+                    {badge.badgeType === "orbs" && (
+                        <>
+                            <Forms.FormText>Rank</Forms.FormText>
+                            <input
+                                style={inputStyle}
+                                value={badge.description}
+                                placeholder="Apprentice"
+                                onChange={e => updateBadge(badge.id, "description", e.target.value)}
+                            />
+                        </>
+                    )}
+
+                    {badge.badgeType !== "nitro" && badge.badgeType !== "boost" && badge.badgeType !== "lastmeadow" && badge.badgeType !== "orbs" && (
                         <>
                             <Forms.FormText>Link</Forms.FormText>
                             <input style={inputStyle} value={badge.link} placeholder="https://..." onChange={e => updateBadge(badge.id, "link", e.target.value)} />
@@ -2064,6 +2210,56 @@ function ProfileEditor() {
             ))}
 
             <Button size={Button.Sizes.SMALL} onClick={addBadge}>+ Add Custom Badge</Button>
+
+            <div style={{ background: "var(--background-secondary)", borderRadius: "8px", padding: "12px" }}>
+                <Forms.FormTitle tag="h5" style={{ marginBottom: "12px" }}>Connected Accounts</Forms.FormTitle>
+
+                {profile.connectedAccounts.map(account => (
+                    <div key={account.id} style={{ background: "var(--background-tertiary)", borderRadius: "8px", padding: "12px", marginBottom: "8px", display: "flex", flexDirection: "column", gap: "8px" }}>
+                        <Forms.FormText>Platform Type</Forms.FormText>
+                        <select
+                            style={{ ...inputStyle, color: "var(--text-normal)", backgroundColor: "var(--background-tertiary)" }}
+                            value={account.type}
+                            onChange={e => updateConnectedAccount(account.id, "type", e.target.value)}
+                        >
+                            <option value="tiktok">TikTok</option>
+                            <option value="instagram">Instagram</option>
+                            <option value="twitter">Twitter/X</option>
+                            <option value="youtube">YouTube</option>
+                            <option value="spotify">Spotify</option>
+                            <option value="github">GitHub</option>
+                            <option value="steam">Steam</option>
+                            <option value="twitch">Twitch</option>
+                            <option value="reddit">Reddit</option>
+                            <option value="epic">Epic Games</option>
+                            <option value="website">Website</option>
+                        </select>
+
+                        <Forms.FormText>Username/Name</Forms.FormText>
+                        <input
+                            style={inputStyle}
+                            value={account.name}
+                            placeholder="@username"
+                            onChange={e => updateConnectedAccount(account.id, "name", e.target.value)}
+                        />
+
+                        <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }}>
+                            <input
+                                type="checkbox"
+                                checked={account.verified}
+                                onChange={e => updateConnectedAccount(account.id, "verified", e.target.checked)}
+                            />
+                            <Forms.FormText style={{ margin: 0 }}>Verified</Forms.FormText>
+                        </label>
+
+                        <Button color={Button.Colors.RED} size={Button.Sizes.SMALL} onClick={() => removeConnectedAccount(account.id)}>
+                            Remove
+                        </Button>
+                    </div>
+                ))}
+
+                <Button size={Button.Sizes.SMALL} onClick={addConnectedAccount}>+ Add Connected Account</Button>
+            </div>
         </div>
     );
 }
@@ -2078,6 +2274,11 @@ const settings = definePluginSettings({
         type: OptionType.STRING,
         description: "Sync API base URL (You can self-host this!)",
         default: "https://customprofiles.paragn.lol/",
+    },
+    showOriginalProfiles: {
+        type: OptionType.BOOLEAN,
+        description: "Show original profiles instead of spoofed ones from other users",
+        default: false,
     },
     profile: {
         type: OptionType.COMPONENT,
