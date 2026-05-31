@@ -1638,6 +1638,9 @@ function ProfileEditor() {
 
     return (
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+            <Button onClick={() => window.open("https://github.com/ManyPlugins/CustomProfiles/", "_blank")}>
+                View on GitHub
+            </Button>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "16px" }}>
                 <div style={{ background: "var(--background-secondary)", borderRadius: "8px", padding: "12px" }}>
                     <Forms.FormTitle tag="h5" style={{ marginBottom: "8px" }}>Basic Info</Forms.FormTitle>
