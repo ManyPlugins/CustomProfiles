@@ -1,35 +1,117 @@
 # CustomProfiles (Vencord Edition)
 
-This one is a little weird.. Hang tight!
+CustomProfiles for Vencord requires a small CSP modification before installation.
 
-Run ```git clone https://github.com/Vendicated/Vencord.git```
+## Prerequisites
 
-Navigate to where it was made.
+* Git
+* Node.js
+* pnpm (or install it later during setup)
 
-Head to src/main/csp/index.ts
+---
 
-Replace  ```export const CspPolicies: PolicyMap = {``` stuff. with the replacement.ts
+## Step 1: Clone Vencord
 
-# Creating the UserScript
+Clone the Vencord repository:
 
-## This part is pretty easy i'd say.
+```bash
+git clone https://github.com/Vendicated/Vencord.git
+```
 
-Head to /src/ and make a folder called userplugins, Then run ```git clone https://github.com/ManyPlugins/CustomProfiles.git``` in the userplugins folder.
-Make sure the folder is NOT nested. Make sure the folder contains all contents at the root.
+Navigate into the newly created Vencord directory.
 
-Navigate into the folder of CustomProfiles and run
+---
 
-```npm install -g pnpm``` 
-Required. (Unless you have it.)
+## Step 2: Patch the CSP
 
-## Setting it up with pnpm
+Open:
 
-Simply run these 3 commands in order.
+```text
+src/main/csp/index.ts
+```
 
-- pnpm install
-- pnpm build
-- pnpm inject
+Locate:
 
-On pnpm inject choose the build you want to inject Vencord into.
+```ts
+export const CspPolicies: PolicyMap = {
+```
 
-Open Discord or CTRL + R, It should be installed. Enjoy!
+Replace the existing CSP policy contents with the contents from `replacement.ts`.
+
+Save the file.
+
+---
+
+## Step 3: Install CustomProfiles
+
+Inside the Vencord source directory, navigate to:
+
+```text
+src/
+```
+
+Create a folder named:
+
+```text
+userplugins
+```
+
+Enter the folder and clone CustomProfiles:
+
+```bash
+git clone https://github.com/ManyPlugins/CustomProfiles.git
+```
+
+### Important
+
+Your directory structure should look like this:
+
+```text
+src/
+└── userplugins/
+    └── CustomProfiles/
+        ├── package.json
+        ├── src/
+        ├── README.md
+        └── ...
+```
+
+Do **not** nest the repository inside another folder.
+
+---
+
+## Step 4: Install pnpm
+
+If you don't already have pnpm installed:
+
+```bash
+npm install -g pnpm
+```
+
+---
+
+## Step 5: Build & Inject
+
+Run the following commands inside the `CustomProfiles` directory:
+
+```bash
+pnpm install
+pnpm build
+pnpm inject
+```
+
+When prompted, select the Discord installation you want to inject Vencord into.
+
+---
+
+## Step 6: Launch Discord
+
+Restart Discord, or press:
+
+```text
+Ctrl + R
+```
+
+If everything was installed correctly, CustomProfiles should now be loaded and ready to use.
+
+Enjoy 🎉
