@@ -1,4 +1,4 @@
-# CustomProfiles
+# CustomProfiles (Vencord Edition)
 
 Equicord userplugin. Local profile overrides (client-side and plugin-sided only.)
 
