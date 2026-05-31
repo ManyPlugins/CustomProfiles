@@ -1,42 +1,35 @@
 # CustomProfiles (Vencord Edition)
 
-Equicord userplugin. Local profile overrides (client-side and plugin-sided only.)
+This one is a little weird.. Hang tight!
 
-Requires **BadgeAPI**. Settings: **Equicord → Plugins → CustomProfiles**.
+Run ```git clone https://github.com/Vendicated/Vencord.git```
 
-Overrides: toggle, display name, username, server nick, bio, pronouns, legacy username, banner, avatar, avatar decoration, nameplate, profile effect, display name styles, clan tag, profile gradient, accent color, account date, badges (discord presets + custom), named presets, json export/import.
+Navigate to where it was made.
 
-No custom status.
+Head to src/main/csp/index.ts
 
-## Install
+Replace  ```export const CspPolicies: PolicyMap = {``` stuff. with the replacement.ts
 
-Needs git + node lts.
+# Creating the UserScript
 
-**Windows:** `install.bat` or `.\install.ps1`
+## This part is pretty easy i'd say.
 
-**Linux/macOS:** `chmod +x install.sh && ./install.sh`
+Head to /src/ and make a folder called userplugins, Then run ```git clone https://github.com/ManyPlugins/CustomProfiles.git``` in the userplugins folder.
+Make sure the folder is NOT nested. Make sure the folder contains all contents at the root.
 
-Clones Equicord if missing, copies plugin, `pnpm install`, `pnpm build`, `pnpm inject`.
+Navigate into the folder of CustomProfiles and run
 
-Custom path:
+```npm install -g pnpm``` 
+Required. (Unless you have it.)
 
-```bash
-EQUICORD_PATH=/path/to/Equicord ./install.sh
-```
+## Setting it up with pnpm
 
-```powershell
-$env:EQUICORD_PATH = "C:\path\to\Equicord"; .\install.ps1
-```
+Simply run these 3 commands in order.
 
-## After install
+- pnpm install
+- pnpm build
+- pnpm inject
 
-1. Restart Discord
-2. Enable **CustomProfiles** in plugin settings
+On pnpm inject choose the build you want to inject Vencord into.
 
-## Notes
-
-- Per-account DataStore
-- `CustomBadges` data migrates on first load
-- Reload discord if avatar url change doesn't stick
-- Close discord before install if inject fails
-- When trying to vist the Plugins menu, If you experience a crash, Try to delete everything in the CustomProfiles folder, Except for index.tsx. After that run ```pnpm build``` and if you havent already. ```pnpm inject```
+Open Discord or CTRL + R, It should be installed. Enjoy!
