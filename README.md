@@ -42,6 +42,11 @@ Save the file.
 
 ---
 
+# Why is Step 2 required?
+
+While attempting to build a version of **CustomProfiles** with **Vencord** i noticed a few issues, CSP blocking everything.
+
+---
 ## Step 3: Install CustomProfiles
 
 Inside the Vencord source directory, navigate to:
