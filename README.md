@@ -4,8 +4,8 @@ CustomProfiles for Vencord requires a small CSP modification before installation
 
 ## Prerequisites
 
-* Git
-* Node.js
+* [Git](https://git-scm.com/install/windows)
+* [Node.js](https://nodejs.org/en/download)
 * pnpm (or install it later during setup)
 
 ---
