@@ -176,6 +176,7 @@ const PRESETS: { category: string; badges: PresetBadge[]; }[] = [
             { name: "Bug Hunter (Tier 1)", description: "Discord Bug Hunter", image: "https://cdn.discordapp.com/badge-icons/2717692c7dca7289b35297368a940dd0.png", discordBadgeId: "bug_hunter_level_1", discordIcon: "2717692c7dca7289b35297368a940dd0", badgeType: "standard" },
             { name: "Bug Hunter (Tier 2)", description: "Discord Bug Hunter", image: "https://cdn.discordapp.com/badge-icons/848f79194d4be5ff5f81505cbd0ce1e6.png", discordBadgeId: "bug_hunter_level_2", discordIcon: "848f79194d4be5ff5f81505cbd0ce1e6", badgeType: "standard" },
             { name: "Early Supporter", description: "Early Supporter", image: "https://cdn.discordapp.com/badge-icons/7060786766c9c840eb3019e725d2b358.png", discordBadgeId: "early_supporter", discordIcon: "7060786766c9c840eb3019e725d2b358", badgeType: "standard" },
+            { name: "Gifting Luminary", description: "Gifting Luminary", image: "https://cdn.discordapp.com/badge-icons/3119f5504b2cd09576a323908c7c3517.png", discordBadgeId: "gifting_luminary", discordIcon: "3119f5504b2cd09576a323908c7c3517", badgeType: "standard" },
             { name: "Early Verified Bot Developer", description: "Early Verified Bot Developer", image: "https://cdn.discordapp.com/badge-icons/6df5892e0f35b051f8b61eace34f4967.png", discordBadgeId: "verified_developer", discordIcon: "6df5892e0f35b051f8b61eace34f4967", badgeType: "standard" },
             { name: "Active Developer", description: "Active Developer", image: "https://cdn.discordapp.com/badge-icons/6bdc42827a38498929a4920da12695d9.png", discordBadgeId: "active_developer", discordIcon: "6bdc42827a38498929a4920da12695d9", badgeType: "standard" },
             { name: "Moderator Alumni", description: "Moderator Programs Alumni", image: "https://cdn.discordapp.com/badge-icons/fee1624003e2fee35cb398e125dc479b.png", discordBadgeId: "certified_moderator", discordIcon: "fee1624003e2fee35cb398e125dc479b", badgeType: "standard" },
@@ -593,8 +594,8 @@ function mergeMember(member: Record<string, unknown> | null | undefined): Record
     const nameplate = buildNameplate(profile.nameplate);
     if (nameplate) changes.collectibles = mergeCollectibles(member.collectibles, nameplate);
 
-    const decoration = profile.avatarDecoration?.asset;
-    if (decoration) changes.avatarDecoration = decoration;
+    const decoration = buildAvatarDecoration(profile.avatarDecoration);
+    if (decoration) changes.avatarDecorationData = decoration;
 
     if (Object.keys(changes).length === 0) return member;
     return createOverlay(member, changes);
@@ -941,6 +942,19 @@ function mergeDisplayProfile(profile: DisplayProfile | null, userId: string | un
 
     const effect = buildProfileEffect(data.profileEffect);
     if (effect) changes.profileEffect = effect;
+
+    const decoration = buildAvatarDecoration(data.avatarDecoration);
+    if (decoration) changes.avatarDecorationData = decoration;
+
+    const nameplate = buildNameplate(data.nameplate);
+    if (nameplate) {
+        if (profile._userProfile && typeof profile._userProfile === "object") {
+            changes._userProfile = {
+                ...(profile._userProfile as Record<string, unknown>),
+                collectibles: mergeCollectibles((profile._userProfile as Record<string, unknown>).collectibles, nameplate)
+            };
+        }
+    }
 
     if (data.bannerUrl) {
         changes.getBannerURL = (options?: { canAnimate?: boolean; size?: number; }) =>
@@ -2225,17 +2239,20 @@ function ProfileEditor() {
                             value={account.type}
                             onChange={e => updateConnectedAccount(account.id, "type", e.target.value)}
                         >
-                            <option value="tiktok">TikTok</option>
-                            <option value="instagram">Instagram</option>
-                            <option value="twitter">Twitter/X</option>
-                            <option value="youtube">YouTube</option>
-                            <option value="spotify">Spotify</option>
-                            <option value="github">GitHub</option>
-                            <option value="steam">Steam</option>
-                            <option value="twitch">Twitch</option>
-                            <option value="reddit">Reddit</option>
+                            <option value="battlenet">Battle.net</option>
                             <option value="epic">Epic Games</option>
-                            <option value="website">Website</option>
+                            <option value="github">GitHub</option>
+                            <option value="instagram">Instagram</option>
+                            <option value="playstation">PlayStation Network</option>
+                            <option value="reddit">Reddit</option>
+                            <option value="spotify">Spotify</option>
+                            <option value="steam">Steam</option>
+                            <option value="tiktok">TikTok</option>
+                            <option value="twitter">Twitter/X</option>
+                            <option value="twitch">Twitch</option>
+                            <option value="xbox">Xbox</option>
+                            <option value="youtube">YouTube</option>
+                            <option value="website">Domain</option>
                         </select>
 
                         <Forms.FormText>Username/Name</Forms.FormText>
