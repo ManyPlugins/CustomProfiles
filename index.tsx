@@ -2257,7 +2257,7 @@ function ProfileEditor() {
                             <option value="twitch">Twitch</option>
                             <option value="xbox">Xbox</option>
                             <option value="youtube">YouTube</option>
-                            <option value="website">Domain</option>
+                            <option value="domain">Domain</option>
                         </select>
 
                         <Forms.FormText>Username/Name</Forms.FormText>
