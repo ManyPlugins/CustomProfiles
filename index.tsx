@@ -1333,18 +1333,20 @@ function applyProfileOverrides(user: UserProfile, profile: ProfileData): UserPro
     if (displayEntries.length > 0) {
         const existing = user.badges ?? [];
         const nativeIds = new Set(displayEntries.map(e => e.discordBadgeId));
+        const allPresetIds = new Set(
+            PRESETS.flatMap(cat => cat.badges.map(p => p.discordBadgeId).filter(Boolean))
+        );
         const filteredExisting = existing.filter(b =>
             !nativeIds.has(b.id)
+            && !allPresetIds.has(b.id)
             && !b.id.startsWith("premium_tenure")
             && b.id !== "premium"
             && !b.id.startsWith("guild_booster")
         );
-
         const nextBadges = [...filteredExisting, ...hookBadges];
         if (!profileBadgesMatch(user.badges, nextBadges)) {
             changes.badges = nextBadges;
         }
-
         const nitroEntry = displayEntries.find(e => e.badgeType === "nitro");
         if (nitroEntry) {
             const sinceMs = nitroEntry.sinceDate ?? Date.now();
